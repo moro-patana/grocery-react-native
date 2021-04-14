@@ -8,7 +8,7 @@ export default () => {
         <SafeAreaView>
             {nachos.map((item)=>{
 
-                return <Text>{item.name}</Text>
+                return <Text key={item.id}>{item.name}</Text>
 
             })}
         </SafeAreaView>
