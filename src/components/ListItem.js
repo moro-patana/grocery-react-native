@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from "react-native"
+import { View, Text, StyleSheet, Image, TouchableOpacity, Platform } from "react-native"
 
 const styles = StyleSheet.create({
     container: {
@@ -15,25 +15,48 @@ const styles = StyleSheet.create({
     },
     icon: {
         height: 30,
-        tintColor: '#69696969'
+        tintColor: '#69696969',
+        ...Platform.select({
+            ios: {
+                tintColor: 'blue',
+            },
+            android: {
+                tintColor: 'red'
+            }
+        })
     },
     separator: {
         flex: 1,
         height: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    }
+    },
 })
 export const Separator = () => <View style={styles.separator}/>
 
-const ListItem = ({ name }) => {
+const ListItem = ({ name, onFavoritePress, isFavorite }) => {
+    let starIcon;
+    if(isFavorite) {
+        starIcon = Platform.select({
+           ios: require('../assets/icons/ios-star.png'),
+           android: require('../assets/icons/md-star.png')
+        })} else {
+        starIcon = Platform.select({
+            ios: require('../assets/icons/ios-star-outline.png'),
+            android: require('../assets/icons/md-star-outline.png')
+       })
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.text}>{name}</Text>
+            {onFavoritePress &&
+            <TouchableOpacity onPress={onFavoritePress}>
             <Image 
-            source={require('../assets/icons/ios-star-outline.png')}
+            source={starIcon}
             style={styles.icon}
             resizeMode="contain"
             />
+            </TouchableOpacity>
+}
         </View>
     )
 }
