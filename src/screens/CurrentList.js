@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
-import { Text, SafeAreaView, FlatList, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
-import ListItem, { Separator } from "../components/ListItem"
+import { Text, SafeAreaView, SectionList, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import ListItem, { Separator, SectionHeader } from "../components/ListItem"
 import AddItem from "../components/AddItem"
 import { useCurrentList } from "../util/ListManager"
 
@@ -12,7 +12,9 @@ export default ({ route, navigation }) => {
         list,
         loading,
         addItem,
-        removeItem
+        removeItem,
+        cart,
+        addToCart
     } = useCurrentList();
 
     if (loading) {
@@ -29,14 +31,20 @@ export default ({ route, navigation }) => {
             style={{ flex: 1 }}
             behavior='padding'
             >
-                <FlatList
-                data={list}
+                <SectionList
+                sections={[
+                    {title: 'List', data: list},
+                    {title: 'Cart', data: cart},
+                ]}
+                renderSectionHeader={({section}) => (
+                    <SectionHeader title={section.title} />
+                )}
                 renderItem={({ item, index }) => (
                     <ListItem
                     name={item.name} 
                     onFavoritePress={() => alert('todo: handle favorite!')}
                     isFavorite={index < 2}
-                    onAddedSwipe={() => removeItem(item.id)}
+                    onAddedSwipe={() => addToCart(item)}
                     onDeleteSwipe={() => removeItem(item.id)}
                     onRowPress={() => {
                         navigation.navigate('ItemDetails', {item})
@@ -52,21 +60,6 @@ export default ({ route, navigation }) => {
                 />
             </KeyboardAvoidingView>
         </SafeAreaView>
-        // <SafeAreaView>
-        //     <ScrollView>
-        //         {nachos.map((item, index)=> (
-        //             <React.Fragment key={item.id} >
-        //                 <ListItem 
-        //                 name={item.name} 
-        //                 onFavoritePress={() => alert('todo: handle favorite!')}
-        //                 isFavorite={index < 2}
-        //                 />
-        //                 <Separator/>
-        //             </React.Fragment>
-        //         ))}
-        //     </ScrollView>
-        // </SafeAreaView>
-
     )
 
 };
