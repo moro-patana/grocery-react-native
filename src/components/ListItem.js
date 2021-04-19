@@ -101,9 +101,9 @@ const ListItem = ({ name, onFavoritePress, isFavorite, onAddedSwipe, onDeleteSwi
                     {onFavoritePress &&
                     <TouchableOpacity onPress={onFavoritePress}>
                     <Image 
-                    source={starIcon}
-                    style={styles.icon}
-                    resizeMode="contain"
+                        source={starIcon}
+                        style={styles.icon}
+                        resizeMode="contain"
                     />
                     </TouchableOpacity>
         }
