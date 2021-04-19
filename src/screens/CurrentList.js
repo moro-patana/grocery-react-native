@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
 import { Text, SafeAreaView, FlatList, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
-// import AsyncStorage from "@react-native-community/async-storage"
-// import {v4 as uuid } from 'uuid';
 import ListItem, { Separator } from "../components/ListItem"
 import AddItem from "../components/AddItem"
 import { useCurrentList } from "../util/ListManager"
 
-// const updatStoredCurrentList = (list) => {
-//     // Add an id to the file '@@GroceryList/currentList'
-//     AsyncStorage.setItem('@@GroceryList/currentList', JSON.stringify(list))
-// }
-export default () => {
+
+export default ({ route, navigation }) => {
     console.log('Hello!');
     const { 
         list,
@@ -19,31 +14,6 @@ export default () => {
         addItem,
         removeItem
     } = useCurrentList();
-    // const [list, setList] = useState([])
-    // const [loading, setLoading] = useState(true)
-
-    // const addItem = (text) => {
-    //     const newList = [{id: uuid(), name: text}, ...list]
-    //     setList(newList)
-    //     updatStoredCurrentList(newList)
-    // }
-    // const removeItem = (id) => {
-    //     const newList = list.filter(item => item.id !== id)
-    //     setList(newList)
-    //     updatStoredCurrentList(newList)
-    // }
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         AsyncStorage.getItem('@@GroceryList/currentList')
-    //          .then(data => JSON.parse(data))
-    //          .then(data => {
-    //              if(data) {
-    //                  setList(data);
-    //              }
-    //              setLoading(false)
-    //          })
-    //     }, 1000)
-    // }, [])
 
     if (loading) {
         return (
@@ -68,6 +38,9 @@ export default () => {
                     isFavorite={index < 2}
                     onAddedSwipe={() => removeItem(item.id)}
                     onDeleteSwipe={() => removeItem(item.id)}
+                    onRowPress={() => {
+                        navigation.navigate('ItemDetails', {item})
+                    }}
                     />
                 )}
                 keyExtractor={(item) => item.id}
