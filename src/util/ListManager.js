@@ -20,7 +20,7 @@ export const useCurrentList = () => {
     const [list, setList] = useState([])
     const [cart, setCart] = useState([])
     const [loading, setLoading] = useState(true)
-    const [favorited, setfavorited] = useState([])
+    const [favorited, setFavorited] = useState([])
 
     const addItem = (text) => {
         const newList = [{ id: uuid(), name: text }, ...list]
@@ -43,7 +43,7 @@ export const useCurrentList = () => {
     }
     const addToFavorite = (item) => {
         const newFavorite = [item, ...favorited]
-        setfavorited(newFavorite)
+        setFavorited(newFavorite)
         updateCurrentFavorite(newFavorite)
     }
     useEffect(() => {

@@ -12,7 +12,9 @@ export default ({ navigation }) => {
         addItem,
         removeItem,
         addToCart,
-        cart
+        cart,
+        favorited,
+        addToFavorite
 
     } = useCurrentList()
 
@@ -35,7 +37,7 @@ export default ({ navigation }) => {
                     renderSectionHeader={({ section }) => <SectionHeader title={section.title} />}
                     renderItem={({ item, index }) => (
                         <FavoriteItem name={item.name}
-                            onFavouritePress={() => console.log('favorited')}
+                            onFavouritePress={() => addToFavorite(item.id)}
                             isFavourite={index < 2}
                             onAddedSwipe={() => addToCart(item)}
                             onDeleteSwipe={() => removeItem(item.id)}
@@ -50,7 +52,6 @@ export default ({ navigation }) => {
                     )}
                     keyExtractor={(item) => item.id}
                     ItemSeparatorComponent={() => <Separator></Separator>}
-                    ListHeaderComponent={() => <AddItem onSubmitEditing={({ nativeEvent: { text } }) => addItem(text)} />}
                 />
             </KeyboardAvoidingView>
         </SafeAreaView>)
