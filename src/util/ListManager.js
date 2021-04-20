@@ -10,6 +10,9 @@ const updateCurrentList = (list) => {
 const updateCurrentCart = (list) => {
     AsyncStorage.setItem("@@GrocerList/currentCart", JSON.stringify(list))
 }
+const updateCurrentFavorite = (list) => {
+    AsyncStorage.setItem("@@GrocerList/currentFavorite", JSON.stringify(list))
+}
 
 
 export const useCurrentList = () => {
@@ -17,6 +20,7 @@ export const useCurrentList = () => {
     const [list, setList] = useState([])
     const [cart, setCart] = useState([])
     const [loading, setLoading] = useState(true)
+    const [favorited, setfavorited] = useState([])
 
     const addItem = (text) => {
         const newList = [{ id: uuid(), name: text }, ...list]
@@ -37,22 +41,30 @@ export const useCurrentList = () => {
         setCart(newCart)
         updateCurrentCart(newCart)
     }
-
+    const addToFavorite = (item) => {
+        const newFavorite = [item, ...favorited]
+        setfavorited(newFavorite)
+        updateCurrentFavorite(newFavorite)
+    }
     useEffect(() => {
 
         setTimeout(() => {
             Promise.all(
 
             [AsyncStorage.getItem('@@GrocerList/currentList'),
-            AsyncStorage.getItem('@@GrocerList/currentCart')
+            AsyncStorage.getItem('@@GrocerList/currentCart'),
+            AsyncStorage.getItem('@@GrocerList/currentFavorite')
         ])
-                .then(([list, cartItems]) => [JSON.parse(list), JSON.parse(cartItems)])
-                .then(([list, cartItems]) => {
+                .then(([list, cartItems, favoriteItem]) => [JSON.parse(list), JSON.parse(cartItems), JSON.parse(favoriteItem)])
+                .then(([list, cartItems, favoriteItem]) => {
                     if (list) {
                         setList(list)
                     }
                     if (cartItems) {
                         setCart(cartItems)
+                    }
+                    if (favoriteItem) {
+                        setfavorited(favoriteItem)
                     }
 
                     setLoading(false)
@@ -67,7 +79,9 @@ export const useCurrentList = () => {
         addItem,
         removeItem,
         cart,
-        addToCart
+        addToCart,
+        favorited,
+        addToFavorite
 
     }
 
