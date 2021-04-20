@@ -11,6 +11,9 @@ const updateStoredCurrentCart = (cart) => {
     // Add an id to the file '@@GroceryList/currentList'
     AsyncStorage.setItem('@@GroceryList/currentCart', JSON.stringify(cart))
 }
+const updateStoredCurrentFavorite = (favoriteList) => {
+    AsyncStorage.setItem('@@GroceryList/currentFavorite', JSON.stringify(favoriteList))
+}
 
 export const useCurrentList = () => {
     const [list, setList] = useState([])
@@ -40,7 +43,7 @@ export const useCurrentList = () => {
         // removeItem(item.id)
         const newFavorite = [item, ...favorited]
         setFavorited(newFavorite)
-        updateStoredCurrentCart(newFavorite)
+        updateStoredCurrentFavorite(newFavorite)
     }
     useEffect(() => {
         setTimeout(() => {

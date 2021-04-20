@@ -44,8 +44,8 @@ export default ({ route, navigation }) => {
                 renderItem={({ item, index }) => (
                     <ListItem
                     name={item.name} 
-                    onFavoritePress={() => addToFavorite(item)}
-                    isFavorite={favorited}
+                    onFavoritePress={() => addToFavorite(item.id)}
+                    isFavorite={index < 2}
                     onAddedSwipe={() => addToCart(item)}
                     onDeleteSwipe={() => removeItem(item.id)}
                     onRowPress={() => {
